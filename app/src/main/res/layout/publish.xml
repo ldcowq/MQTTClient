@@ -96,32 +96,32 @@
         app:layout_constraintTop_toTopOf="@+id/guideline6">
 
         <RadioButton
-            android:id="@+id/qos_one"
+            android:id="@+id/qos_0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:buttonTint="#ffffff"
             android:checked="true"
+            android:text="0"
+            android:textColor="#ffffff"
+            android:textSize="26sp" />
+
+        <RadioButton
+            android:id="@+id/qos_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:buttonTint="#ffffff"
             android:text="1"
             android:textColor="#ffffff"
             android:textSize="26sp" />
 
         <RadioButton
-            android:id="@+id/qos_two"
+            android:id="@+id/qos_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
             android:buttonTint="#ffffff"
             android:text="2"
-            android:textColor="#ffffff"
-            android:textSize="26sp" />
-
-        <RadioButton
-            android:id="@+id/qos_three"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="#ffffff"
-            android:text="3"
             android:textColor="#ffffff"
             android:textSize="26sp" />
     </RadioGroup>
@@ -152,7 +152,7 @@
 
     <TextView
         android:id="@+id/publish_status_show_textView"
-        android:layout_width="190dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="28dp"

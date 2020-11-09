@@ -39,6 +39,12 @@ import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity extends AppCompatActivity {
+    private static final int STRATCHECK = 1;
+    private static final int BACK = 2;
+    private static final int RECEIVERBACK = 3;
+    private static final int CONNECTFAILED = 30;
+    private static final int CONNECTSUCCEED = 31;
+
     private ScheduledExecutorService scheduler;
     private MqttConnectOptions connectOptions;
     public static MqttClient mqttClient;
@@ -57,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText username_editText;
     private EditText password_editText;
     private TextView connect_status_show_textView;
+    FragmentTransaction transaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,22 +90,22 @@ public class MainActivity extends AppCompatActivity {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 switch (msg.what) {
-                    case 1://开机校验更新回传
+                    case STRATCHECK://开机校验更新回传
                         break;
-                    case 2://反馈回传
+                    case BACK://反馈回传
                         Toast.makeText(MainActivity.this, "反馈回传", Toast.LENGTH_SHORT).show();
                         break;
-                    case 3:  //MQTT收到消息回传:
+                    case RECEIVERBACK:  //MQTT收到消息回传:
                         String message = msg.obj.toString();
                         String topicName = message.substring(0, message.indexOf(","));
                         String topicContent = message.substring(message.indexOf(",") + 1, message.length());
-                        SubscribeFragment.receiveMsg_text.append("收到“" + topicName + "”主题发来消息：" + topicContent + "\r\n");
+                        SubscribeFragment.receiveMsg_text.append(" 收到“" + topicName + "”主题发来消息：" + topicContent + "\r\n");
                         break;
-                    case 30:  //连接失败
+                    case CONNECTFAILED:  //连接失败
                         Toast.makeText(MainActivity.this, "连接失败", Toast.LENGTH_SHORT).show();
                         connect_status_show_textView.setText("未连接！");
                         break;
-                    case 31: //连接成功
+                    case CONNECTSUCCEED: //连接成功
                         Toast.makeText(MainActivity.this, "连接成功", Toast.LENGTH_SHORT).show();
                         connect_status_show_textView.setText("已连接！");
                         publishFragment.setPublish_status_show_textView("已连接！");
@@ -147,6 +154,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        handler.removeMessages(CONNECTSUCCEED);
+        handler.removeMessages(RECEIVERBACK);
+
         Log.d("MainActivity", "onDestroy:---------------- ");
     }
 
@@ -191,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                 subscribeFragment.setSubscribe_status_show_textView("未连接！");
                 subscribeFragment.setSubscribe_switch(false);
                 publishFragment.setPublish_status_show_textView("未连接！");
-
+                Toast.makeText(MainActivity.this, "连接已断开！", Toast.LENGTH_SHORT).show();
             } catch (MqttException e) {
                 e.printStackTrace();
             }
@@ -202,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             //host为服务器主机名，ClientId_editText获取客户端的id，MemoryPersistence设置客户端id的保存形式，默认为内存保存
             String serverURI = "tcp://" + host_editText.getText().toString().trim() + ":" + port_editText.getText().toString().trim();
-            Log.d("MainActivity", "mqttURL: " + serverURI);
+            Log.d("publish", "mqttURL: " + serverURI);
             mqttClient = new MqttClient(serverURI, ClientId_editText.getText().toString().trim(), new MemoryPersistence());
             //Mqtt的连接配置
             connectOptions = new MqttConnectOptions();
@@ -260,9 +270,21 @@ public class MainActivity extends AppCompatActivity {
         aboutFragment = new AboutFragment();
         fragments = new Fragment[]{connectFragment, subscribeFragment, publishFragment, aboutFragment};
         lastfragment = 0;
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_main, connectFragment).commit();
+        transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_main, connectFragment).commit();
         bottomNavigationView = findViewById(R.id.nav_view);
         bottomNavigationView.setOnNavigationItemSelectedListener(changeFragment);
+        transaction.add(R.id.fragment_main, subscribeFragment);
+        transaction.add(R.id.fragment_main, publishFragment);
+        transaction.add(R.id.fragment_main, aboutFragment);
+        transaction.hide(connectFragment);
+        transaction.show(subscribeFragment);
+        transaction.hide(subscribeFragment);
+        transaction.show(publishFragment);
+        transaction.hide(publishFragment);
+        transaction.show(aboutFragment);
+        transaction.hide(aboutFragment);
+        transaction.show(connectFragment);
     }
 
 
@@ -318,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
      * @param index        需要跳转的fragment索引
      */
     private void switchFragment(int lastfragment, int index) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction = getSupportFragmentManager().beginTransaction();
         transaction.hide(fragments[lastfragment]);
         if (!fragments[index].isAdded()) {
             transaction.add(R.id.fragment_main, fragments[index]);

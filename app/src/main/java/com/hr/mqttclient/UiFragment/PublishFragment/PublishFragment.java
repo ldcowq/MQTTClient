@@ -44,7 +44,7 @@ public class PublishFragment extends Fragment{
         publishMsg_editText = rootView.findViewById(R.id.publishMsg_editText);
         publish_status_show_textView = rootView.findViewById(R.id.publish_status_show_textView);
         publish_QosRadioGroup = rootView.findViewById(R.id.publish_QosRadioGroup);
-        publish_qos = rootView.findViewById(R.id.qos_one);
+        publish_qos = rootView.findViewById(R.id.qos_0);
         publish_message_btn = rootView.findViewById(R.id.publish_message_btn);
 
     }
@@ -83,7 +83,6 @@ public class PublishFragment extends Fragment{
                                 mqttClient.publish(publish_topic_editText.getText().toString().trim(),
                                         publishMessage, Integer.parseInt(publish_qos.getText().toString()), false);
                                 publish_status_show_textView.setText("累计推送消息：" + ++count + " 条");
-                                Toast.makeText(getActivity(), "推送成功！", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(getActivity(), "主题未填写！", Toast.LENGTH_SHORT).show();
                             }

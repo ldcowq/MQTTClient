@@ -54,7 +54,7 @@ public class SubscribeFragment extends Fragment {
         subscribe_status_show_textView = rootView.findViewById(R.id.subscribe_status_show_textView);
         subscribe_topic_editText = rootView.findViewById(R.id.subscribe_topic_editText);
         receiveMsg_text = rootView.findViewById(R.id.receiveMsg_text);
-        subscribe_qos = rootView.findViewById(R.id.qos_one);
+        subscribe_qos = rootView.findViewById(R.id.qos_0);
     }
 
     public void setSubscribe_status_show_textView(String s) {

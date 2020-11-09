@@ -24,7 +24,6 @@
         android:id="@+id/topic_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:text="主题："
         android:textColor="#ffffff"
         android:textSize="26dp"
@@ -52,7 +51,6 @@
         android:id="@+id/qos_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="45dp"
         android:text="QOS："
         android:textColor="#ffffff"
@@ -72,32 +70,32 @@
         app:layout_constraintTop_toTopOf="@+id/guideline10">
 
         <RadioButton
-            android:id="@+id/qos_one"
+            android:id="@+id/qos_0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="15dp"
             android:buttonTint="#ffffff"
             android:checked="true"
+            android:text="0"
+            android:textColor="#ffffff"
+            android:textSize="26sp" />
+
+        <RadioButton
+            android:id="@+id/qos_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:buttonTint="#ffffff"
             android:text="1"
             android:textColor="#ffffff"
             android:textSize="26sp" />
 
         <RadioButton
-            android:id="@+id/qos_two"
+            android:id="@+id/qos_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
             android:buttonTint="#ffffff"
             android:text="2"
-            android:textColor="#ffffff"
-            android:textSize="26sp" />
-
-        <RadioButton
-            android:id="@+id/qos_three"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:buttonTint="#ffffff"
-            android:text="3"
             android:textColor="#ffffff"
             android:textSize="26sp" />
     </RadioGroup>
@@ -122,7 +120,6 @@
         android:id="@+id/subscribe_switch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="88dp"
         android:checked="false"
         android:showText="true"
@@ -154,7 +151,6 @@
         android:id="@+id/subscribe_status_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
         android:layout_marginTop="136dp"
         android:text="状态："
         android:textColor="#ffffff"
@@ -165,7 +161,7 @@
 
     <ScrollView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="350dp"
         android:layout_marginTop="28dp"
         android:scrollbars="vertical"
         app:layout_constraintEnd_toEndOf="parent"
@@ -175,15 +171,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/receiveMsg_text"
                 android:layout_width="340dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/white_edittext"
-                android:minLines="13"
-                android:maxLines="13"
-                android:textSize="20dp" />
+                android:minLines="19"
+                android:textSize="16dp" />
         </LinearLayout>
 
     </ScrollView>
